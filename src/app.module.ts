@@ -10,10 +10,9 @@ import { AppService } from './app.service';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.development']
     }),
 
-    MongooseModule.forRoot(`mongodb://root:root@${process.env.MONGO_DB_HOST ? process.env.MONGO_DB_HOST : 'localhost'}:27017/challenge`),
+    MongooseModule.forRoot(`mongodb://${process.env.MONGO_DB_HOST ? process.env.MONGO_DB_HOST : 'localhost'}:27017/challenge`),
 
     SharedModule,
     MoviesModule,

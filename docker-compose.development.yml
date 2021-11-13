@@ -8,13 +8,9 @@ services:
     ports:
       - 27017:27017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
       MONGO_INITDB_DATABASE: challenge
     networks:
         - nestjs-network
-    volumes:
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
 
   development:
     container_name: backend-challenge-developer-clm
@@ -27,6 +23,11 @@ services:
     environment:
       NODE_OPTIONS: "--max-old-space-size=8192"
       MONGO_DB_HOST: database
+      EXTERNAL_API_MOVIES: http://www.omdbapi.com
+      EXTERNAL_API_MOVIES_IMG: http://img.omdbapi.com
+      EXTERNAL_API_MOVIES_KEY: c8dd6896
+      PORT: 3000
+      HOST: 0.0.0.0
     build:
         context: .
         target: development
