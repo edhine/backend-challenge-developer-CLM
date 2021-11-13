@@ -90,6 +90,14 @@ Las siguientes instrucciones te guiaran para poder levantar el proyecto correcta
 docker-compose -f .\docker-compose.development.yml up --build --force-recreate
 ```
 
+Post-Instalación
+
+```
+microservicio: http://localhost:3000
+swagger:       http://localhost:3000/api
+swagger-json:  http://localhost:3000/api-json
+```
+
 ## Swagger ⌨️
 
 Este proyecto cuenta con un servicio interno de Swagger, este puede ser accedido desde [Aquí](http://localhost:3000/api), esto despliega una pagina interna que muestra todos los request que tiene este microservicio, esto tiene la particularidad de que se va actualizando con "Decorators" dentro del codigo, por lo cual no hay necesidad de formar o crear el archivo de manera manual.
