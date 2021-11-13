@@ -1,0 +1,45 @@
+version: "3.7"
+
+services:
+  database:
+    container_name: mongo-database
+    image: mongo:4.2
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: challenge
+    networks:
+        - nestjs-network
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+
+  development:
+    container_name: backend-challenge-developer-clm
+    image: backend-challenge-developer-clm:0.0.1
+    depends_on:
+      - database
+    links:
+      - database
+    command: node dist/main
+    environment:
+      NODE_OPTIONS: "--max-old-space-size=8192"
+      MONGO_DB_HOST: database
+    build:
+        context: .
+        target: development
+    ports:
+        - 3000:3000
+        - 9229:9229
+    networks:
+        - nestjs-network
+    volumes:
+        - .:/usr/src/app
+        - /usr/src/app/dist
+        - /usr/src/app/node_modules
+    restart: unless-stopped
+networks:
+    nestjs-network:
+      driver: bridge
