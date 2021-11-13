@@ -1,5 +1,5 @@
 import { Module, ValidationPipe } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import { SharedModule } from './shared/shared.module';
 import { MoviesModule } from './modules/movies/movies.module';
@@ -10,9 +10,18 @@ import { AppService } from './app.service';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      ...(process.env.STAGE === undefined && { envFilePath: ['.env.development.local'] }),
     }),
 
-    MongooseModule.forRoot(`mongodb://${process.env.MONGO_DB_HOST ? process.env.MONGO_DB_HOST : 'localhost'}:27017/challenge`),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: `mongodb://${configService.get('MONGO_DB_HOST')}:27017/challenge`,
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }),
+      inject: [ConfigService],
+    }),
 
     SharedModule,
     MoviesModule,

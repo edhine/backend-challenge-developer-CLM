@@ -21,6 +21,7 @@ services:
       - database
     command: node dist/main
     environment:
+      STAGE: development
       NODE_OPTIONS: "--max-old-space-size=8192"
       MONGO_DB_HOST: database
       EXTERNAL_API_MOVIES: http://www.omdbapi.com
