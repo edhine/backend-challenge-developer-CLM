@@ -87,7 +87,7 @@ _Estas instrucciones te permitirán obtener una copia del proyecto en funcionami
 Las siguientes instrucciones te guiaran para poder levantar el proyecto correctamente.
 
 ```
-docker-compose -f .\docker-compose.development.yml up --build --force-recreate
+docker-compose -f docker-compose.development.yml up --build --force-recreate
 ```
 
 Post-Instalación
